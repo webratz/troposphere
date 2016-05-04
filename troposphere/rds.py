@@ -5,7 +5,7 @@
 
 import re
 
-from . import AWSHelperFn, AWSObject, AWSProperty, Ref
+from . import AWSHelperFn, AWSObject, AWSProperty
 from .validators import boolean, network_port, integer, positive_integer
 
 # Taken from:
@@ -27,8 +27,6 @@ def validate_iops(iops):
         return iops
     if int(iops) < 1000:
         raise ValueError("DBInstance Iops, if set, must be greater than 1000.")
-    if int(iops) > 10000:
-        raise ValueError("DBInstance Iops, if set, must be less than 10000.")
     return iops
 
 
@@ -156,7 +154,7 @@ class DBInstance(AWSObject):
         'StorageEncrypted': (boolean, False),
         'StorageType': (basestring, False),
         'Tags': (list, False),
-        'VPCSecurityGroups': ([basestring, AWSHelperFn], False),
+        'VPCSecurityGroups': ([basestring], False),
     }
 
     def validate(self):
@@ -287,7 +285,7 @@ class EventSubscription(AWSObject):
         'Enabled': (boolean, False),
         'EventCategories': ([basestring], False),
         'SnsTopicArn': (basestring, True),
-        'SourceIds': ([basestring, Ref], False),
+        'SourceIds': ([basestring], False),
         'SourceType': (basestring, False),
     }
 
@@ -301,11 +299,11 @@ class OptionSetting(AWSProperty):
 
 class OptionConfiguration(AWSProperty):
     props = {
-        'DBSecurityGroupMemberships': ([basestring, Ref], False),
+        'DBSecurityGroupMemberships': ([basestring], False),
         'OptionName': (basestring, True),
         'OptionSettings': ([OptionSetting], False),
         'Port': (network_port, False),
-        'VpcSecurityGroupMemberships': ([basestring, Ref], False),
+        'VpcSecurityGroupMemberships': ([basestring], False),
     }
 
 
@@ -343,12 +341,14 @@ class DBCluster(AWSObject):
         'DBSubnetGroupName': (basestring, False),
         'Engine': (validate_engine, True),
         'EngineVersion': (basestring, False),
+        'KmsKeyId': (basestring, False),
         'MasterUsername': (basestring, False),
         'MasterUserPassword': (basestring, False),
         'Port': (network_port, False),
         'PreferredBackupWindow': (validate_backup_window, False),
         'PreferredMaintenanceWindow': (basestring, False),
         'SnapshotIdentifier': (basestring, False),
+        'StorageEncrypted': (boolean, False),
         'Tags': (list, False),
-        'VpcSecurityGroupIds': ([basestring, AWSHelperFn], False),
+        'VpcSecurityGroupIds': ([basestring], False),
     }

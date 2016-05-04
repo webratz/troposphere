@@ -1,3 +1,62 @@
+## 1.6.0 (pending)
+- Remove unnecessary AWSHelperFn from props
+- ReplicationConfigurationRules Destination is now an object (#380)
+- Add WAF SizeConstraintSet and XssMatchSet
+- Logs SubscriptionFilter (#413)
+- Elasticsearch support (#415)
+- Fixed ConfigSnapshotDeliveryProperties type (#420)
+- Adding support for EMR resources (#421)
+- Fix `ecs.TaskDefinition.Volumes` that was incorrectly flagged as required (#422)
+- AWS::ECR test example (#423)
+- Add cloudfront hostedzoneid for route53 (#427)
+- Typo in variable name (431)
+- ScalingAdjustment is an integer (#432)
+- Add Compress to CloudFront (#433)
+- Added missing S3OriginConfig parameter(#437)
+- Allow both GetAtt and a basestring (#440)
+- Add VpcConfig to AWS::Lambda::Function (#442)
+- Add Version Resource to awslambda (#443)
+- Add Alias Resource to awslambda (#444)
+- Ignore If expression during validation of ASG (#446)
+- Add test and tweak fix for ASG MaxSize If fix (#446)
+- Provide Valid Lambda Function Memory Values for use in Parameters (#449)
+- Add FunctionName to Lambda::Function (#452)
+- Add support for EBS volume configuration in EMR resources (#453)
+- Add elasticsearch instance type constants (#454)
+- DomainName isn't a required parameter (#457)
+- Create Documentation To Help Contributors (#458)
+- Move Groups to property, add policy template version (#460)
+- Fix Elasticsarch Domain object naming and add backward compatibility (#461)
+- EC2 update FromPort, ToPort and Egress as optional (#463)
+- ApiGateway Resources (#466)
+- Added CloudWatch Events support (#467)
+- Import JSON Templates (#468)
+- Fix config Source object to take a list of SourceDetails (#469)
+- Update Contribute Document to Use Requirements.txt (#470)
+- Update to Apr 25, 2016 release (#471)
+- Implement LifecycleRule Transitions property (#472)
+- Better AWSHelperFn support in template generator (#473)
+- Fix Bucket AccessControl to allow Ref (#475)
+
+## 1.5.0 (2016-03-01)
+- Add MariaDB to list of RDS engines [GH-368]
+- Add ap-northeast [GH-373]
+- Add T2 Nano [GH-374]
+- capability support for cfn [GH-375]
+- Update to resource list in documentation [GH-383]
+- More info from validator function errors [GH-385]
+- Add testing for python 3.5 [GH-388]
+- Extended title validation [GH-389]
+- EC2 NAT Gateway [GH-394]
+- Add AWS::ECR::Repository [GH-395]
+- Add KmsKeyId and StorageEncrypted to DBCluster [GH-396]
+- Add awacs soft dependency [GH-397]
+- New dynamodb2 module to replace dynamodb for consistent interface [GH-398]
+- Add IsMultiRegionTrail support [GH-399]
+- Add IncludeGlobalResourceTypes to RecordingGroup [GH-400]
+- Capitalize examples [GH-404]
+- use location constants for bucket creation in cfn [GH-409]
+
 ## 1.4.0 (2016-01-01)
 - Add RDS Aurora support [GH-335]
 - Change DeploymentGroup Ec2TagFilters to list [GH-337]

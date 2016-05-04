@@ -6,11 +6,12 @@
 
 import json
 import re
+import sys
 import types
 
 from . import validators
 
-__version__ = "1.4.0"
+__version__ = "1.5.0"
 
 # constants for DeletionPolicy
 Delete = 'Delete'
@@ -100,7 +101,16 @@ class BaseAWSObject(object):
 
             # If it's a function, call it...
             elif isinstance(expected_type, types.FunctionType):
-                value = expected_type(value)
+                try:
+                    value = expected_type(value)
+                except:
+                    sys.stderr.write(
+                        "%s: %s.%s function validator '%s' threw "
+                        "exception:\n" % (self.__class__,
+                                          self.title,
+                                          name,
+                                          expected_type.__name__))
+                    raise
                 return self.properties.__setitem__(name, value)
 
             # If it's a list of types, check against those types...
@@ -237,6 +247,15 @@ class AWSHelperFn(object):
             return data.title
         else:
             return data
+
+
+class GenericHelperFn(AWSHelperFn):
+    """ Used as a fallback for the template generator """
+    def __init__(self, data):
+        self.data = self.getdata(data)
+
+    def JSONrepr(self):
+        return self.data
 
 
 class Base64(AWSHelperFn):

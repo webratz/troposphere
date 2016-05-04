@@ -1,5 +1,19 @@
-from . import AWSObject, AWSProperty, GetAtt
+from . import AWSObject, AWSProperty
 from .validators import positive_integer
+
+MEMORY_VALUES = [x for x in range(128, 1600, 64)]
+
+
+def validate_memory_size(memory_value):
+    """ Validate memory size for Lambda Function
+    :param memory_value: The memory size specified in the Function
+    :return: The provided memory size if it is valid
+    """
+    memory_value = int(positive_integer(memory_value))
+    if memory_value not in MEMORY_VALUES:
+        raise ValueError("Lambda Function memory size must be one of:\n %s" %
+                         ", ".join(str(mb) for mb in MEMORY_VALUES))
+    return memory_value
 
 
 class Code(AWSProperty):
@@ -31,6 +45,14 @@ class Code(AWSProperty):
             )
 
 
+class VPCConfig(AWSProperty):
+
+    props = {
+        'SecurityGroupIds': (list, True),
+        'SubnetIds': (list, True),
+    }
+
+
 class EventSourceMapping(AWSObject):
     resource_type = "AWS::Lambda::EventSourceMapping"
 
@@ -49,11 +71,13 @@ class Function(AWSObject):
     props = {
         'Code': (Code, True),
         'Description': (basestring, False),
+        'FunctionName': (basestring, False),
         'Handler': (basestring, True),
-        'MemorySize': (positive_integer, False),
-        'Role': ([basestring, GetAtt], True),
+        'MemorySize': (validate_memory_size, False),
+        'Role': (basestring, True),
         'Runtime': (basestring, True),
         'Timeout': (positive_integer, False),
+        'VpcConfig': (VPCConfig, False),
     }
 
 
@@ -66,4 +90,25 @@ class Permission(AWSObject):
         'Principal': (basestring, True),
         'SourceAccount': (basestring, False),
         'SourceArn': (basestring, False),
+    }
+
+
+class Alias(AWSObject):
+    resource_type = "AWS::Lambda::Alias"
+
+    props = {
+        'Description': (basestring, False),
+        'FunctionName': (basestring, True),
+        'FunctionVersion': (basestring, True),
+        'Name': (basestring, True),
+    }
+
+
+class Version(AWSObject):
+    resource_type = "AWS::Lambda::Version"
+
+    props = {
+        'CodeSha256': (basestring, False),
+        'Description': (basestring, False),
+        'FunctionName': (basestring, True),
     }
